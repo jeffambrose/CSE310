@@ -61,7 +61,7 @@ int main()
 	{
 		//grab each array element and enter into array
 		getline(cin, line);
-		adjList.addNode(line);
+		adjList.addNode(line, i);
 	}
 
 	//grab the number of edges

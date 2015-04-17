@@ -14,6 +14,7 @@ struct Place
 {
 	string title;
 	struct Place * next;
+	int location;
 };
 
 //class LinkedList will contain a linked list of places
@@ -24,7 +25,7 @@ private:
 public:
 	LinkedList();
 	~LinkedList();
-	bool addElement(string title, int index);
+	bool addElement(string title, int index, int num);
 	void printList(string newLine);
 	void sortList();
 };
@@ -49,7 +50,7 @@ LinkedList::~LinkedList()
 }
 
 //addElement to head of list
-bool LinkedList::addElement(string newTitle, int index)
+bool LinkedList::addElement(string newTitle, int index, int num)
 {
 	//check if index is less than zero
 	if (index < 0)
@@ -60,6 +61,7 @@ bool LinkedList::addElement(string newTitle, int index)
 	struct Place * newPlace = new Place;
 	newPlace->title = newTitle;
 	newPlace->next = NULL;
+	newPlace->location = num;
 
 	//check if head is null (no list exists) create list
 	if (head == NULL)

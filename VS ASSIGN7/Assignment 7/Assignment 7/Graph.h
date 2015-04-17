@@ -2,7 +2,7 @@
 // Name: Jeff Ambrose
 // ASU Email Address: jeffrey.ambrose@asu.edu
 // Arizona State University CSE310
-// Description: Sets up an array of linked lists.
+// Description: Sets up an adjacency list of vertexes that point to edges.
 
 #include <iostream>
 #include <iomanip>
@@ -30,19 +30,19 @@ struct Vertex
 	string name;
 	string color;
 	LinkedList routes;
+	int location;
 };
 
 //directed graph using adjacency list representation
 class Graph
 {
 		int numVert;					//number of vertices
-		int numEdges;					//number of edges
-		int time;
+		int time;						//used for discover/finish times
 		list<Vertex*> adj;				//an array containing adjacency lists
 		void DFSVISIT(int u);			//to be used by DFS
 	public:
 		Graph(int V);					//constructor
-		void addNode(string);			//add a node to a graph
+		void addNode(string, int);		//add a node to a graph
 		void addEdge(string, string);	//add an edge to graph
 		void DFS();						//DFS traversal of the vertices reachable from v
 		void printGraph();				//print out the graph adj list
@@ -65,10 +65,11 @@ Graph::Graph(int V)
 }
 
 //add a node to the graph
-void Graph::addNode(string node)
+void Graph::addNode(string node, int num)
 {
 	Vertex * newPlace = new Vertex();
 	newPlace->name = node;
+	newPlace->location = num;
 	//newPlace->color = WHITE;
 
 	adj.push_back(newPlace);
@@ -77,12 +78,21 @@ void Graph::addNode(string node)
 //add an edge to the graph
 void Graph::addEdge(string from, string to)
 {
+	int loc = 0;
+	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
+	{
+		if ((*it)->name.compare(to) == 0)
+		{
+			loc = (*it)->location;
+		}
+	}
+
 	Vertex * tempPlace = new Vertex();
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		if ((*it)->name.compare(from) == 0)
 		{
-			(*it)->routes.addElement(to, 0);
+			(*it)->routes.addElement(to, 0, loc);
 			return;
 		}
 	}
@@ -108,21 +118,25 @@ void Graph::sortGraph()
 	}
 }
 
-//dfs calls this function to visit adjacent nodes
+//dfs calls this function to visit nodes adjacent to u
 void Graph::DFSVISIT(int u)
 {
 	color[u] = GREY;
 	time++;
 	d[u] = time;
 
+	//struct pointer that equals the head of the node(u)
+	struct Place * temp = adj->routes->head;
+	int v;
+
 	//for every node v adjacent to u, do (so for every node in routes until null?)
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)	//this won't work because it is iterating the adj list
 	{
 		//if we haven't discovered this node yet, set the parent and recursively go into it
-		if (color[*it] == WHITE)
+		if (color[(*it)->location] == WHITE)
 		{
-			pi[*it] = u;		//this returns an int so that won't work, need a name somehow
-			DFSVISIT(u);		//recursive call on adjacent, white node
+			pi[(*it)->location] = u;		//this returns an int so that won't work, need a name somehow
+			DFSVISIT(u);					//recursive call on adjacent, white node
 		}
 	}
 	//finished with this node
@@ -131,7 +145,7 @@ void Graph::DFSVISIT(int u)
 	f[u] = time;
 
 	//insert into topological sort at head
-	topoSort->addElement(adj->name, 0);
+	topoSort->addElement(adj->name, 0, 0);
 }
 
 //depth first search on a graph
