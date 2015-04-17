@@ -39,6 +39,7 @@ class Graph
 		int * f;						//to store finish time
 		string * pi;					//to store parent node
 		LinkedList * topoSort;			//to store topological sort order
+		int loc = 0;
 	public:
 		Graph(int V);					//constructor
 		void addNode(string, int);		//add a node to a graph
@@ -77,12 +78,12 @@ void Graph::addNode(string node, int num)
 //add an edge to the graph
 void Graph::addEdge(string from, string to)
 {
-	int loc = 0;
-	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
+	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); it++)
 	{
 		if ((*it)->name.compare(to) == 0)
 		{
 			loc = (*it)->location;
+			break;
 		}
 	}
 
@@ -102,9 +103,9 @@ void Graph::printGraph()
 {
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
-		cout << (*it)->name << "->";
+		cout << (*it)->name << "(" << (*it)->location << ")->";
 		(*it)->routes.printList("->");
-		cout << "\n\n";
+		cout << "\n";
 	}
 }
 
@@ -207,7 +208,7 @@ void Graph::printPi()
 	int index = 0;
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
-		cout << "pi[" << (*it)->name << "]=";
+		cout << "pi[" << (*it)->name << "]= ";
 		cout << pi[index];
 		index++;
 		cout << "\n";

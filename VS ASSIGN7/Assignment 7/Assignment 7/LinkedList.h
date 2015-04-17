@@ -9,6 +9,7 @@
 #include <string>		//to use strings
 
 using namespace std;
+
 //struct represents some place information
 struct Place
 {
@@ -144,6 +145,7 @@ void LinkedList::sortList()
 				if (index->title.compare(selection->title) > 0) 
 				{
 					swap(index->title, selection->title);
+					swap(index->location, selection->location);
 				}
 			}
 		}
