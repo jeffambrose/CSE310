@@ -86,19 +86,20 @@ int main()
 	adjList.DFS();					//call DFS on our adjacency list to populate values
 
 	//print array pi
-	cout << "The array pi content:\n\n";
+	cout << "\n";
+	cout << "The array pi content:" << endl;
 	adjList.printPi();
 
 	//print array d
-	cout << "\nThe array d content:\n\n";
+	cout << "\nThe array d content:" << endl;
 	adjList.printD();
 
 	//print array f
-	cout << "\nThe array f content:\n\n";
+	cout << "\nThe array f content:" << endl;
 	adjList.printF();
 
 	//print topological sort
-	cout << "\nTopological order:\n\n";
+	cout << "\nTopological Order:" << endl;
 	adjList.printTopo();
 }
 

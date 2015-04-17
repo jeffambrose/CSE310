@@ -180,6 +180,7 @@ void Graph::DFS()
 void Graph::printD()
 {
 	int index = 0;
+	cout << "" << endl;
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		cout << "d[" << (*it)->name << "]=";
@@ -193,6 +194,7 @@ void Graph::printD()
 void Graph::printF()
 {
 	int index = 0;
+	cout << "" << endl;
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		cout << "f[" << (*it)->name << "]=";
@@ -206,6 +208,7 @@ void Graph::printF()
 void Graph::printPi()
 {
 	int index = 0;
+	cout << "" << endl;
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		cout << "pi[" << (*it)->name << "]= ";
@@ -218,5 +221,5 @@ void Graph::printPi()
 //print topological sort array
 void Graph::printTopo()
 {
-	topoSort->printList("\n");
+	topoSort->printList("");
 }

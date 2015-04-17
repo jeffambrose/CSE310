@@ -122,6 +122,7 @@ void LinkedList::printList(string newline)
 		Place * next = head;
 		while (next != NULL)
 		{
+			cout << "\n";
 			cout << next->title << newline;
 			next = next->next;
 		}
