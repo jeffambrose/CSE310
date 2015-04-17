@@ -124,16 +124,16 @@ void Graph::DFSVISIT(Vertex * u)
 	color[u->location] = GREY;
 	time++;
 	d[u->location] = time;
-	Place * current = new Place();
 
 	//for every node v adjacent to u, do
-	for (current = u->routes.head; current != NULL; current = current->next)
+	for (Place * current = u->routes.head; current != NULL; current = current->next)
 	{
 		//if we haven't discovered this node yet, set the parent and recursively go into it
 		if (color[current->location] == WHITE)
 		{
 			pi[current->location] = u->name;					//store the parent node
 
+			//find the vertex we should go into
 			for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 			{
 				if ((*it)->location == current->location)
@@ -142,7 +142,6 @@ void Graph::DFSVISIT(Vertex * u)
 				}
 			}						
 		}
-		//current = current->next;
 	}
 	//finished with this node
 	u->color = BLACK;

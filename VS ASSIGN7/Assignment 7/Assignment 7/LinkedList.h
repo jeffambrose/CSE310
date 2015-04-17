@@ -4,9 +4,9 @@
 // Arizona State University CSE310
 // Description: Sets up a linked list to print topological sort. Inserts at head of list then prints.
 
-#include <iostream> //to use cout
-#include <iomanip> //to format output
-#include <string> //to use strings
+#include <iostream>		//to use cout
+#include <iomanip>		//to format output
+#include <string>		//to use strings
 
 using namespace std;
 //struct represents some place information
