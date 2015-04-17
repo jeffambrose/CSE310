@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <string>
 #include <list>
+#include <array>
 #include "LinkedList.h"
 
 using namespace std;
@@ -26,13 +27,6 @@ struct Vertex
 	int location;
 };
 
-//arrays used for color, discover, finish, parent, and topological sort
-string color[];
-int d[];
-int f[];
-Vertex * pi[];
-LinkedList topoSort[];
-
 //directed graph using adjacency list representation
 class Graph
 {
@@ -40,6 +34,11 @@ class Graph
 		int time;						//used for discover/finish times
 		list<Vertex*> adj;				//an array containing adjacency lists
 		void DFSVISIT(Vertex * u);		//to be used by DFS
+		string * color;					//to store colors
+		int * d;						//to store discover time
+		int * f;						//to store finish time
+		string * pi;					//to store parent node
+		LinkedList * topoSort;			//to store topological sort order
 	public:
 		Graph(int V);					//constructor
 		void addNode(string, int);		//add a node to a graph
@@ -57,11 +56,11 @@ class Graph
 Graph::Graph(int V)
 {
 	numVert = V;
-	color[V];
-	d[V];
-	f[V];
-	pi[V];
-	topoSort[V];
+	color = new string[numVert];
+	d = new int[numVert];
+	f = new int[numVert];
+	pi = new string[numVert];
+	topoSort = new LinkedList[numVert];
 }
 
 //add a node to the graph
@@ -127,13 +126,13 @@ void Graph::DFSVISIT(Vertex * u)
 	d[u->location] = time;
 
 	//for every node v adjacent to u, do (so for every node in routes until null?)
-	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)	//this won't work because it is iterating the adj list
+	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		//if we haven't discovered this node yet, set the parent and recursively go into it
 		if (color[(*it)->location] == WHITE)
 		{
-			pi[(*it)->location]->name = u->name;			//this returns an int so that won't work, need a name somehow
-			DFSVISIT(*it);							//recursive call on adjacent, white node
+			pi[(*it)->location] = u->name;					//store the parent node
+			DFSVISIT(*it);									//recursive call on adjacent, white node
 		}
 	}
 	//finished with this node
@@ -153,18 +152,9 @@ void Graph::DFS()
 	for (int i = 0; i < numVert; i++)
 	{
 		color[i] = WHITE;
-		pi[i] = NULL;
+		pi[i] = "none";
 	}
 	time = 0;
-
-	////for every node u in our graph, if it hasn't been visited we visit it
-	//for (int u = 0; u < numVert; u++)
-	//{
-	//	if (color[u] == WHITE)
-	//	{
-	//		DFSVISIT(u);
-	//	}
-	//}
 
 	//for every node u in our graph, if it hasn't been visited we visit it
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
@@ -209,14 +199,7 @@ void Graph::printPi()
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
 		cout << "pi[" << (*it)->name << "]=";
-		if (index == 0)
-		{
-			cout << "none";
-		}
-		else
-		{
-			cout << pi[index]->name;
-		}
+		cout << pi[index];
 		index++;
 		cout << "\n";
 	}

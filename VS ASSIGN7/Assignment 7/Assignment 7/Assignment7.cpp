@@ -39,8 +39,6 @@ using namespace std;
 
 //declare helpers
 string * split(string str, char delim);
-int listIndex(Graph * array[], string name);
-string * split(string str, char delim);
 int numVert = 0;
 int numEdge = 0;
 
@@ -102,7 +100,6 @@ int main()
 	//print topological sort
 	cout << "\n\nTopological order:\n\n";
 	adjList.printTopo();
-	
 }
 
 //helper function to split the class number and title string into two
