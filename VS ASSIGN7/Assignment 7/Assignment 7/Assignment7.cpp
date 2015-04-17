@@ -82,7 +82,7 @@ int main()
 	}
 
 	adjList.sortGraph();			//sort the lists in adj list into alphabetical order
-	adjList.printGraph();			//test that the adj list is being correctly created
+	//adjList.printGraph();			//test that the adj list is being correctly created
 	adjList.DFS();					//call DFS on our adjacency list to populate values
 
 	//print array pi
@@ -90,15 +90,15 @@ int main()
 	adjList.printPi();
 
 	//print array d
-	cout << "\n\nThe array d content:\n\n";
+	cout << "\nThe array d content:\n\n";
 	adjList.printD();
 
 	//print array f
-	cout << "\n\nThe array f content:\n\n";
+	cout << "\nThe array f content:\n\n";
 	adjList.printF();
 
 	//print topological sort
-	cout << "\n\nTopological order:\n\n";
+	cout << "\nTopological order:\n\n";
 	adjList.printTopo();
 }
 

@@ -32,7 +32,7 @@ class Graph
 {
 		int numVert;					//number of vertices
 		int time;						//used for discover/finish times
-		list<Vertex*> adj;				//an array containing adjacency lists
+		list<Vertex*> adj;				//adjacency list
 		void DFSVISIT(Vertex * u);		//to be used by DFS
 		string * color;					//to store colors
 		int * d;						//to store discover time
@@ -124,16 +124,25 @@ void Graph::DFSVISIT(Vertex * u)
 	color[u->location] = GREY;
 	time++;
 	d[u->location] = time;
+	Place * current = new Place();
 
-	//for every node v adjacent to u, do (so for every node in routes until null?)
-	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
+	//for every node v adjacent to u, do
+	for (current = u->routes.head; current != NULL; current = current->next)
 	{
 		//if we haven't discovered this node yet, set the parent and recursively go into it
-		if (color[(*it)->location] == WHITE)
+		if (color[current->location] == WHITE)
 		{
-			pi[(*it)->location] = u->name;					//store the parent node
-			DFSVISIT(*it);									//recursive call on adjacent, white node
+			pi[current->location] = u->name;					//store the parent node
+
+			for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
+			{
+				if ((*it)->location == current->location)
+				{
+					DFSVISIT(*it);								//recursive call on adjacent, white node
+				}
+			}						
 		}
+		//current = current->next;
 	}
 	//finished with this node
 	u->color = BLACK;

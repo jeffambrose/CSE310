@@ -20,7 +20,6 @@ struct Place
 //class LinkedList will contain a linked list of places
 class LinkedList {
 private:
-	struct Place * head;
 
 public:
 	LinkedList();
@@ -28,6 +27,8 @@ public:
 	bool addElement(string title, int index, int num);
 	void printList(string newLine);
 	void sortList();
+	int getSize();
+	struct Place * head;
 };
 
 //constructor to initialize the linked list
@@ -122,10 +123,6 @@ void LinkedList::printList(string newline)
 		{
 			cout << next->title << newline;
 			next = next->next;
-		}
-		if (next == NULL)
-		{
-			cout << "NULL";
 		}
 	}
 }
