@@ -17,13 +17,6 @@ const string WHITE = "white";
 const string GREY = "grey";
 const string BLACK = "black";
 
-//arrays used for color, discover, finish, parent, and topological sort
-string color[];
-int d[];
-int f[];
-Vertex * pi[];
-LinkedList topoSort[];
-
 //vertex structure
 struct Vertex
 {
@@ -33,13 +26,20 @@ struct Vertex
 	int location;
 };
 
+//arrays used for color, discover, finish, parent, and topological sort
+string color[];
+int d[];
+int f[];
+Vertex * pi[];
+LinkedList topoSort[];
+
 //directed graph using adjacency list representation
 class Graph
 {
 		int numVert;					//number of vertices
 		int time;						//used for discover/finish times
 		list<Vertex*> adj;				//an array containing adjacency lists
-		void DFSVISIT(int u);			//to be used by DFS
+		void DFSVISIT(Vertex * u);		//to be used by DFS
 	public:
 		Graph(int V);					//constructor
 		void addNode(string, int);		//add a node to a graph
@@ -70,7 +70,7 @@ void Graph::addNode(string node, int num)
 	Vertex * newPlace = new Vertex();
 	newPlace->name = node;
 	newPlace->location = num;
-	//newPlace->color = WHITE;
+	newPlace->color = WHITE;
 
 	adj.push_back(newPlace);
 }
@@ -119,15 +119,12 @@ void Graph::sortGraph()
 }
 
 //dfs calls this function to visit nodes adjacent to u
-void Graph::DFSVISIT(int u)
+void Graph::DFSVISIT(Vertex * u)
 {
-	color[u] = GREY;
+	u->color = GREY;
+	color[u->location] = GREY;
 	time++;
-	d[u] = time;
-
-	//struct pointer that equals the head of the node(u)
-	struct Place * temp = adj->routes->head;
-	int v;
+	d[u->location] = time;
 
 	//for every node v adjacent to u, do (so for every node in routes until null?)
 	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)	//this won't work because it is iterating the adj list
@@ -135,17 +132,18 @@ void Graph::DFSVISIT(int u)
 		//if we haven't discovered this node yet, set the parent and recursively go into it
 		if (color[(*it)->location] == WHITE)
 		{
-			pi[(*it)->location] = u;		//this returns an int so that won't work, need a name somehow
-			DFSVISIT(u);					//recursive call on adjacent, white node
+			pi[(*it)->location]->name = u->name;			//this returns an int so that won't work, need a name somehow
+			DFSVISIT(*it);							//recursive call on adjacent, white node
 		}
 	}
 	//finished with this node
-	color[u] = BLACK;
+	u->color = BLACK;
+	color[u->location] = BLACK;
 	time++;
-	f[u] = time;
+	f[u->location] = time;
 
 	//insert into topological sort at head
-	topoSort->addElement(adj->name, 0, 0);
+	topoSort->addElement(u->name, 0, 0);
 }
 
 //depth first search on a graph
@@ -159,12 +157,21 @@ void Graph::DFS()
 	}
 	time = 0;
 
+	////for every node u in our graph, if it hasn't been visited we visit it
+	//for (int u = 0; u < numVert; u++)
+	//{
+	//	if (color[u] == WHITE)
+	//	{
+	//		DFSVISIT(u);
+	//	}
+	//}
+
 	//for every node u in our graph, if it hasn't been visited we visit it
-	for (int u = 0; u < numVert; u++)
+	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 	{
-		if (color[u] == WHITE)
+		if ((*it)->color == WHITE)
 		{
-			DFSVISIT(u);
+			DFSVISIT(*it);
 		}
 	}
 }
@@ -208,7 +215,7 @@ void Graph::printPi()
 		}
 		else
 		{
-			cout << *pi[index]->name;
+			cout << pi[index]->name;
 		}
 		index++;
 		cout << "\n";
