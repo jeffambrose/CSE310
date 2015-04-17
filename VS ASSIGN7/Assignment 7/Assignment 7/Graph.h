@@ -104,7 +104,7 @@ void Graph::printGraph()
 	{
 		cout << (*it)->name << "->";
 		(*it)->routes.printList("->");
-		cout << "\n";
+		cout << "\n\n";
 	}
 }
 
@@ -136,9 +136,10 @@ void Graph::DFSVISIT(Vertex * u)
 			//find the vertex we should go into
 			for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); ++it)
 			{
+				//if we find it let's visit it
 				if ((*it)->location == current->location)
 				{
-					DFSVISIT(*it);								//recursive call on adjacent, white node
+					DFSVISIT(*it);
 				}
 			}						
 		}

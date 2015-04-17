@@ -82,11 +82,11 @@ int main()
 	}
 
 	adjList.sortGraph();			//sort the lists in adj list into alphabetical order
-	adjList.printGraph();			//test that the adj list is being correctly created
+	//adjList.printGraph();			//test that the adj list is being correctly created
 	adjList.DFS();					//call DFS on our adjacency list to populate values
 
 	//print array pi
-	cout << "\nThe array pi content:\n\n";
+	cout << "The array pi content:\n\n";
 	adjList.printPi();
 
 	//print array d
