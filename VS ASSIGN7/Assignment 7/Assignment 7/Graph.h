@@ -42,6 +42,7 @@ class Graph
 		int loc = 0;
 	public:
 		Graph(int V);					//constructor
+		~Graph();						//destructor
 		void addNode(string, int);		//add a node to a graph
 		void addEdge(string, string);	//add an edge to graph
 		void DFS();						//DFS traversal of the vertices reachable from v
@@ -62,6 +63,15 @@ Graph::Graph(int V)
 	f = new int[numVert];
 	pi = new string[numVert];
 	topoSort = new LinkedList[numVert];
+}
+
+//destructor
+Graph::~Graph()
+{
+	for (list<Vertex*>::iterator it = adj.begin(); it != adj.end(); it++)
+	{
+		delete (*it);
+	}
 }
 
 //add a node to the graph
